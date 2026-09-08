@@ -118,30 +118,13 @@ PSR-18 has no notion of a timeout, so core's `HttpClient::withTimeout()` is only
 
 ## Depending on core
 
-The published constraint is the real one:
-
 ```json
 "require": {
-    "plin-code/job-boards-core": "^0.2"
+    "plin-code/job-boards-core": "^0.2||^0.3"
 }
 ```
 
-During local development core is resolved through a path repository instead. Composer cannot guess a version for a path checkout that sits on a branch, so the repository pins one explicitly, otherwise `^0.2` never matches:
-
-```json
-"repositories": [
-    {
-        "type": "path",
-        "url": "../job-boards-core",
-        "options": {
-            "symlink": true,
-            "versions": { "plin-code/job-boards-core": "0.2.0" }
-        }
-    }
-]
-```
-
-Drop that whole `repositories` block once core is installed from Packagist.
+Core is on Packagist, so that constraint is all this package needs: there is no `repositories` block to carry. Do **not** commit a `path` repository pointing at a sibling checkout of core. It resolves against the layout of one machine, and the package then fails to install from a fresh clone anywhere else.
 
 ## Development
 
